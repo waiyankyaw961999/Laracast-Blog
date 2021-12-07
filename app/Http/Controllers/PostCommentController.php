@@ -1,0 +1,20 @@
+<?php
+
+namespace App\Http\Controllers;
+use App\Models\Post;
+use Illuminate\Http\Request;
+
+class PostCommentController extends Controller
+{
+    public function store(Post $post)
+    {
+        request()->validate([
+            'body'=>'required'
+        ]);
+
+        $attributes = ['user_id'=>request()->user()->id,'body'=>request('body')];
+        $post->comments()->create($attributes);
+
+        return back();
+    }
+}
